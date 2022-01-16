@@ -669,7 +669,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         String ObjButton[] = {"YES","NO"};
-        int pilihan = JOptionPane.showOptionDialog(null,"Apakah Anda yakin ingi keluar?","Message", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+        int pilihan = JOptionPane.showOptionDialog(null,"Apakah Anda yakin ingin keluar...?","Message", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
             null,ObjButton,ObjButton[1]);
         if(pilihan == 0){
             System.exit(0);
