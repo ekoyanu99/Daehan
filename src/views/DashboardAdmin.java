@@ -106,9 +106,9 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        panelHeader.setBackground(new java.awt.Color(102, 0, 153));
+        panelHeader.setBackground(new java.awt.Color(24, 104, 174));
 
-        btnClose.setBackground(new java.awt.Color(102, 0, 153));
+        btnClose.setBackground(new java.awt.Color(24, 104, 174));
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Delete_30px_4.png"))); // NOI18N
         btnClose.setContentAreaFilled(false);
         btnClose.setOpaque(true);
@@ -151,6 +151,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 btnMaximizeMouseClicked(evt);
             }
         });
+        btnMaximize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaximizeActionPerformed(evt);
+            }
+        });
 
         btnMinimize.setBackground(new java.awt.Color(204, 204, 204));
         btnMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Minimize_Window_30px.png"))); // NOI18N
@@ -186,9 +191,9 @@ public class DashboardAdmin extends javax.swing.JFrame {
             .addComponent(labelNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        panelMenu.setBackground(new java.awt.Color(0, 0, 204));
+        panelMenu.setBackground(new java.awt.Color(120, 122, 145));
 
-        btnMasterData.setBackground(new java.awt.Color(0, 0, 204));
+        btnMasterData.setBackground(new java.awt.Color(120, 122, 145));
         btnMasterData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnMasterData.setForeground(new java.awt.Color(255, 255, 255));
         btnMasterData.setText("  Master Data");
@@ -209,8 +214,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 btnMasterDataMouseExited(evt);
             }
         });
+        btnMasterData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMasterDataActionPerformed(evt);
+            }
+        });
 
-        btnTransaksi.setBackground(new java.awt.Color(0, 0, 204));
+        btnTransaksi.setBackground(new java.awt.Color(120, 122, 145));
         btnTransaksi.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnTransaksi.setForeground(new java.awt.Color(255, 255, 255));
         btnTransaksi.setText("  Transaksi");
@@ -232,7 +242,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnLaporan.setBackground(new java.awt.Color(0, 0, 204));
+        btnLaporan.setBackground(new java.awt.Color(120, 122, 145));
         btnLaporan.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLaporan.setForeground(new java.awt.Color(255, 255, 255));
         btnLaporan.setText("  Laporan");
@@ -256,13 +266,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         panelJam.setBackground(new java.awt.Color(0, 0, 204));
 
-        tgl.setBackground(new java.awt.Color(0, 0, 204));
+        tgl.setBackground(new java.awt.Color(120, 122, 145));
         tgl.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         tgl.setForeground(new java.awt.Color(255, 255, 255));
         tgl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tgl.setOpaque(true);
 
-        jam.setBackground(new java.awt.Color(0, 0, 204));
+        jam.setBackground(new java.awt.Color(120, 122, 145));
         jam.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jam.setForeground(new java.awt.Color(255, 255, 255));
         jam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -315,7 +325,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         panelMasterData.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnDataBarang.setBackground(new java.awt.Color(0, 0, 204));
+        btnDataBarang.setBackground(new java.awt.Color(120, 122, 145));
         btnDataBarang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnDataBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnDataBarang.setText("  > Data Barang");
@@ -339,7 +349,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnDataSupplier.setBackground(new java.awt.Color(0, 0, 204));
+        btnDataSupplier.setBackground(new java.awt.Color(120, 122, 145));
         btnDataSupplier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnDataSupplier.setForeground(new java.awt.Color(255, 255, 255));
         btnDataSupplier.setText("  > Data Supplier");
@@ -363,7 +373,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnDataGudang.setBackground(new java.awt.Color(0, 0, 204));
+        btnDataGudang.setBackground(new java.awt.Color(120, 122, 145));
         btnDataGudang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnDataGudang.setForeground(new java.awt.Color(255, 255, 255));
         btnDataGudang.setText("  > Data Gudang");
@@ -387,7 +397,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnDataKategori.setBackground(new java.awt.Color(0, 0, 204));
+        btnDataKategori.setBackground(new java.awt.Color(120, 122, 145));
         btnDataKategori.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnDataKategori.setForeground(new java.awt.Color(255, 255, 255));
         btnDataKategori.setText("  > Data Kategori");
@@ -435,7 +445,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         panelTransaksi.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnBarangMasuk.setBackground(new java.awt.Color(0, 0, 204));
+        btnBarangMasuk.setBackground(new java.awt.Color(120, 122, 145));
         btnBarangMasuk.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnBarangMasuk.setForeground(new java.awt.Color(255, 255, 255));
         btnBarangMasuk.setText("  > Barang Masuk");
@@ -459,7 +469,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnBarangKeluar.setBackground(new java.awt.Color(0, 0, 204));
+        btnBarangKeluar.setBackground(new java.awt.Color(120, 122, 145));
         btnBarangKeluar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnBarangKeluar.setForeground(new java.awt.Color(255, 255, 255));
         btnBarangKeluar.setText("  > Barang Keluar");
@@ -500,7 +510,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         panelLaporan.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnLapBarangMasuk.setBackground(new java.awt.Color(0, 0, 204));
+        btnLapBarangMasuk.setBackground(new java.awt.Color(120, 122, 145));
         btnLapBarangMasuk.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLapBarangMasuk.setForeground(new java.awt.Color(255, 255, 255));
         btnLapBarangMasuk.setText("  > Laporan Barang Masuk");
@@ -524,7 +534,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnLapBarangKeluar.setBackground(new java.awt.Color(0, 0, 204));
+        btnLapBarangKeluar.setBackground(new java.awt.Color(120, 122, 145));
         btnLapBarangKeluar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLapBarangKeluar.setForeground(new java.awt.Color(255, 255, 255));
         btnLapBarangKeluar.setText("  > Laporan Barang Keluar");
@@ -548,7 +558,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnLapStokBarang.setBackground(new java.awt.Color(0, 0, 204));
+        btnLapStokBarang.setBackground(new java.awt.Color(120, 122, 145));
         btnLapStokBarang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLapStokBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnLapStokBarang.setText("  > Laporan Stok Barang");
@@ -572,7 +582,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnLapDataSupplier.setBackground(new java.awt.Color(0, 0, 204));
+        btnLapDataSupplier.setBackground(new java.awt.Color(120, 122, 145));
         btnLapDataSupplier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLapDataSupplier.setForeground(new java.awt.Color(255, 255, 255));
         btnLapDataSupplier.setText("  > Laporan Data Supplier");
@@ -664,7 +674,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseMouseEntered
 
     private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
-        btnClose.setBackground(new Color(102,0,153));
+        btnClose.setBackground(new Color(24,104,174));
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -722,7 +732,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnMasterDataMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMasterDataMouseExited
         btnMasterData.setForeground(Color.white);
-        btnMasterData.setBackground(new Color(0,0,204));
+        btnMasterData.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnMasterDataMouseExited
 
     private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
@@ -738,7 +748,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnTransaksiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseExited
         btnTransaksi.setForeground(Color.white);
-        btnTransaksi.setBackground(new Color(0,0,204));
+        btnTransaksi.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnTransaksiMouseExited
 
     private void btnLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseClicked
@@ -754,7 +764,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnLaporanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanMouseExited
         btnLaporan.setForeground(Color.white);
-        btnLaporan.setBackground(new Color(0,0,204));
+        btnLaporan.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnLaporanMouseExited
 
     private void btnDataBarangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataBarangMouseEntered
@@ -764,7 +774,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnDataBarangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataBarangMouseExited
         btnDataBarang.setForeground(Color.white);
-        btnDataBarang.setBackground(new Color(0,0,204));
+        btnDataBarang.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnDataBarangMouseExited
 
     private void btnDataBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataBarangActionPerformed
@@ -779,7 +789,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnDataSupplierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataSupplierMouseExited
         btnDataSupplier.setForeground(Color.white);
-        btnDataSupplier.setBackground(new Color(0,0,204));
+        btnDataSupplier.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnDataSupplierMouseExited
 
     private void btnDataSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataSupplierActionPerformed
@@ -794,7 +804,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnDataGudangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataGudangMouseExited
         btnDataGudang.setForeground(Color.white);
-        btnDataGudang.setBackground(new Color(0,0,204));
+        btnDataGudang.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnDataGudangMouseExited
 
     private void btnDataGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataGudangActionPerformed
@@ -809,7 +819,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnDataKategoriMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataKategoriMouseExited
         btnDataKategori.setForeground(Color.white);
-        btnDataKategori.setBackground(new Color(0,0,204));
+        btnDataKategori.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnDataKategoriMouseExited
 
     private void btnDataKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataKategoriActionPerformed
@@ -824,7 +834,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnBarangMasukMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBarangMasukMouseExited
         btnBarangMasuk.setForeground(Color.white);
-        btnBarangMasuk.setBackground(new Color(0,0,204));
+        btnBarangMasuk.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnBarangMasukMouseExited
 
     private void btnBarangMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangMasukActionPerformed
@@ -839,7 +849,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnBarangKeluarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBarangKeluarMouseExited
         btnBarangKeluar.setForeground(Color.white);
-        btnBarangKeluar.setBackground(new Color(0,0,204));
+        btnBarangKeluar.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnBarangKeluarMouseExited
 
     private void btnBarangKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangKeluarActionPerformed
@@ -854,7 +864,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnLapBarangMasukMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLapBarangMasukMouseExited
         btnLapBarangMasuk.setForeground(Color.white);
-        btnLapBarangMasuk.setBackground(new Color(0,0,204));
+        btnLapBarangMasuk.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnLapBarangMasukMouseExited
 
     private void btnLapBarangMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapBarangMasukActionPerformed
@@ -869,7 +879,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnLapBarangKeluarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLapBarangKeluarMouseExited
         btnLapBarangKeluar.setForeground(Color.white);
-        btnLapBarangKeluar.setBackground(new Color(0,0,204));
+        btnLapBarangKeluar.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnLapBarangKeluarMouseExited
 
     private void btnLapBarangKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapBarangKeluarActionPerformed
@@ -884,7 +894,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnLapStokBarangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLapStokBarangMouseExited
         btnLapStokBarang.setForeground(Color.white);
-        btnLapStokBarang.setBackground(new Color(0,0,204));
+        btnLapStokBarang.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnLapStokBarangMouseExited
 
     private void btnLapStokBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapStokBarangActionPerformed
@@ -899,7 +909,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void btnLapDataSupplierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLapDataSupplierMouseExited
         btnLapDataSupplier.setForeground(Color.white);
-        btnLapDataSupplier.setBackground(new Color(0,0,204));
+        btnLapDataSupplier.setBackground(new Color(120,122,145));
     }//GEN-LAST:event_btnLapDataSupplierMouseExited
 
     private void btnLapDataSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapDataSupplierActionPerformed
@@ -912,6 +922,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
         panelTransaksi.setVisible(false);
         panelLaporan.setVisible(false);
     }//GEN-LAST:event_panelUtamaMouseClicked
+
+    private void btnMaximizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaximizeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMaximizeActionPerformed
+
+    private void btnMasterDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasterDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMasterDataActionPerformed
 
     /**
      * @param args the command line arguments
