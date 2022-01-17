@@ -59,7 +59,7 @@ public class dataBarang extends javax.swing.JFrame {
         btnPilihTanggal = new com.toedter.calendar.JDateChooser();
         txtKodePart = new javax.swing.JTextField();
         txtNamaBarang = new javax.swing.JTextField();
-        txtKategori = new javax.swing.JTextField();
+        comboBoxKategori = new javax.swing.JComboBox<>();
         txtJumlah = new javax.swing.JTextField();
         txtKeterangan = new javax.swing.JTextArea();
         btnHapus = new javax.swing.JButton();
@@ -197,7 +197,14 @@ public class dataBarang extends javax.swing.JFrame {
         jPanel1.add(btnPilihTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 210, 30));
         jPanel1.add(txtKodePart, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 210, 30));
         jPanel1.add(txtNamaBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 210, 30));
-        jPanel1.add(txtKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 210, 30));
+
+        comboBoxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxKategoriActionPerformed(evt);
+            }
+        });
+        jPanel1.add(comboBoxKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 210, 30));
 
         txtJumlah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -362,6 +369,10 @@ public class dataBarang extends javax.swing.JFrame {
         btnMinimize.setBackground(new Color(102,102,102));
     }//GEN-LAST:event_btnMinimizeMouseEntered
 
+    private void comboBoxKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxKategoriActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxKategoriActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -406,6 +417,7 @@ public class dataBarang extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser btnPilihTanggal;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
+    private javax.swing.JComboBox<String> comboBoxKategori;
     private javax.swing.JPanel header;
     private javax.swing.JScrollPane informasi;
     private javax.swing.JLabel jLabel1;
@@ -421,7 +433,6 @@ public class dataBarang extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtJumlah;
-    private javax.swing.JTextField txtKategori;
     private javax.swing.JTextArea txtKeterangan;
     private javax.swing.JTextField txtKodePart;
     private javax.swing.JTextField txtNamaBarang;
