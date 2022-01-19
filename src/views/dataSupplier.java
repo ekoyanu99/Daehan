@@ -16,17 +16,14 @@ import static views.DashboardAdmin.maximixed;
  *
  * @author ekoya
  */
-public class dataSupplier extends javax.swing.JFrame {
+public class dataSupplier extends javax.swing.JDialog {
 
     /**
      * Creates new form dataSupplier
      */
-    public dataSupplier() {
+    public dataSupplier(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-    }
-
-    dataSupplier(DashboardAdmin aThis, boolean rootPaneCheckingEnabled) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -68,7 +65,7 @@ public class dataSupplier extends javax.swing.JFrame {
         jPencarian = new javax.swing.JTextField();
         btnCari = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(120, 122, 145));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -398,10 +395,17 @@ public class dataSupplier extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new dataSupplier().setVisible(true);
+                dataSupplier dialog = new dataSupplier(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
