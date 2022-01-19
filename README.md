@@ -9,7 +9,7 @@ Download file library nya disini https://bit.ly/33M58lV
 Setelah itu buka Project Daehan Tool
 
 Lalu klik kanan pada bagian Libraries Project
-![alt text](https://drive.google.com/file/d/1HAsy483rqzhok_g-ES23ZiX_nceClBOX/view?usp=sharing)
+![alt text](https://media.giphy.com/media/Vcc6VkWgplJrgnbk5m/giphy.gif)
 
 Setelah masukan semua library yang telah di didownload
-![alt text](https://drive.google.com/file/d/1xctfJGODNIjQcvVOM2v4PPLG78a40m_q/view?usp=sharing)
+![alt text](https://media.giphy.com/media/B9niO8WyNYQ4sKvqKc/giphy.gif)
