@@ -56,11 +56,13 @@ public class dataBarang extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         btnPilihTanggal = new com.toedter.calendar.JDateChooser();
-        txtKodePart = new javax.swing.JTextField();
+        txtKodeBahan = new javax.swing.JTextField();
         txtNamaBarang = new javax.swing.JTextField();
         comboBoxKategori = new javax.swing.JComboBox<>();
         txtJumlah = new javax.swing.JTextField();
+        txtUkuran = new javax.swing.JTextField();
         txtKeterangan = new javax.swing.JTextArea();
         btnHapus = new javax.swing.JButton();
         btnSimpan = new javax.swing.JButton();
@@ -162,7 +164,7 @@ public class dataBarang extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Kode Part");
+        jLabel2.setText("Kode Bahan");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -174,12 +176,16 @@ public class dataBarang extends javax.swing.JFrame {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Jumlah");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
+        jLabel5.setText("Ukuran");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Keterangan");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 80, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 80, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Jumlah");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
 
         btnPilihTanggal.setDateFormatString("dd-MM-yyyy");
         btnPilihTanggal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -195,7 +201,7 @@ public class dataBarang extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnPilihTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 210, 30));
-        jPanel1.add(txtKodePart, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 210, 30));
+        jPanel1.add(txtKodeBahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 210, 30));
         jPanel1.add(txtNamaBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 210, 30));
 
         comboBoxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -213,9 +219,16 @@ public class dataBarang extends javax.swing.JFrame {
         });
         jPanel1.add(txtJumlah, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 210, 30));
 
+        txtUkuran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUkuranActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtUkuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 210, 30));
+
         txtKeterangan.setColumns(20);
         txtKeterangan.setRows(5);
-        jPanel1.add(txtKeterangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 150));
+        jPanel1.add(txtKeterangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, -1, 190));
 
         btnHapus.setBackground(new java.awt.Color(255, 99, 99));
         btnHapus.setText("Hapus");
@@ -224,7 +237,7 @@ public class dataBarang extends javax.swing.JFrame {
                 btnHapusActionPerformed(evt);
             }
         });
-        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 230, 80, 30));
+        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 230, 80, 30));
 
         btnSimpan.setBackground(new java.awt.Color(186, 255, 180));
         btnSimpan.setText("Simpan");
@@ -233,7 +246,7 @@ public class dataBarang extends javax.swing.JFrame {
                 btnSimpanActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 110, 80, 30));
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 110, 80, 30));
 
         btnUbah.setBackground(new java.awt.Color(255, 253, 162));
         btnUbah.setText("Ubah");
@@ -242,7 +255,7 @@ public class dataBarang extends javax.swing.JFrame {
                 btnUbahActionPerformed(evt);
             }
         });
-        jPanel1.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 150, 80, 30));
+        jPanel1.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 150, 80, 30));
 
         btnClear.setBackground(new java.awt.Color(255, 171, 118));
         btnClear.setText("Clear");
@@ -251,7 +264,7 @@ public class dataBarang extends javax.swing.JFrame {
                 btnClearActionPerformed(evt);
             }
         });
-        jPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 190, 80, 30));
+        jPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 190, 80, 30));
 
         jLabel7.setBackground(new java.awt.Color(255, 0, 0));
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -260,16 +273,16 @@ public class dataBarang extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Info_30px_6.png"))); // NOI18N
         jLabel7.setText("Informasi");
         jLabel7.setOpaque(true);
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 110, 320, 30));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, 350, 30));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("\n   * Form ini digunakan untuk menyimpan data\n      barang baru\n   * Tekan TAMBAH untuk menyimpan data\n   * Tekan UBAH untuk mengedit data\n   * Tekan CLEAR untuk membersihkan field\n   * Tekan HAPUS untuk menghapus data");
+        jTextArea1.setText("\n\n   * Form ini digunakan untuk menyimpan data\n      barang baru\n   * Tekan TAMBAH untuk menyimpan data\n   * Tekan UBAH untuk mengedit data\n   * Tekan CLEAR untuk membersihkan field\n   * Tekan HAPUS untuk menghapus data\n   * Untuk ukuran BAHAN silahkan isi permeter");
         informasi.setViewportView(jTextArea1);
 
-        jPanel1.add(informasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 130, 320, 140));
+        jPanel1.add(informasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, 350, 180));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -308,9 +321,9 @@ public class dataBarang extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPilihTanggalKeyPressed
 
-    private void txtJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJumlahActionPerformed
+    private void txtUkuranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUkuranActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtJumlahActionPerformed
+    }//GEN-LAST:event_txtUkuranActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
@@ -373,6 +386,10 @@ public class dataBarang extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxKategoriActionPerformed
 
+    private void txtJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJumlahActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtJumlahActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -428,13 +445,15 @@ public class dataBarang extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtJumlah;
     private javax.swing.JTextArea txtKeterangan;
-    private javax.swing.JTextField txtKodePart;
+    private javax.swing.JTextField txtKodeBahan;
     private javax.swing.JTextField txtNamaBarang;
+    private javax.swing.JTextField txtUkuran;
     // End of variables declaration//GEN-END:variables
 }
