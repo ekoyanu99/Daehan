@@ -6,8 +6,11 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static views.DashboardAdmin.maximixed;
@@ -24,6 +27,9 @@ public class dataSupplier extends javax.swing.JDialog {
     public dataSupplier(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
     }
 
     /**
@@ -38,8 +44,6 @@ public class dataSupplier extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
-        btnMaximize = new javax.swing.JButton();
-        btnMinimize = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnPilihTanggal = new com.toedter.calendar.JDateChooser();
@@ -49,10 +53,10 @@ public class dataSupplier extends javax.swing.JDialog {
         txtNoTelepon = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtNamaSupplier = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtNIK = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
         txtAlamat = new javax.swing.JTextArea();
         btnSimpan = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
@@ -66,6 +70,7 @@ public class dataSupplier extends javax.swing.JDialog {
         btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(120, 122, 145));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -91,34 +96,6 @@ public class dataSupplier extends javax.swing.JDialog {
             }
         });
 
-        btnMaximize.setBackground(new java.awt.Color(102, 102, 102));
-        btnMaximize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Maximize_Window_30px.png"))); // NOI18N
-        btnMaximize.setContentAreaFilled(false);
-        btnMaximize.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Maximize_Window_30px_1.png"))); // NOI18N
-        btnMaximize.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMaximizeMouseClicked(evt);
-            }
-        });
-        btnMaximize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMaximizeActionPerformed(evt);
-            }
-        });
-
-        btnMinimize.setBackground(new java.awt.Color(204, 204, 204));
-        btnMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Minimize_Window_30px.png"))); // NOI18N
-        btnMinimize.setContentAreaFilled(false);
-        btnMinimize.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Minimize_Window_30px_1.png"))); // NOI18N
-        btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseEntered(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("Data Supplier");
 
@@ -129,18 +106,12 @@ public class dataSupplier extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 853, Short.MAX_VALUE)
-                .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnMaximize, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 985, Short.MAX_VALUE)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-            .addComponent(btnMaximize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnMinimize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(headerLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel8)
@@ -184,6 +155,17 @@ public class dataSupplier extends javax.swing.JDialog {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
         jPanel1.add(txtNamaSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 210, 30));
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("NIK");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
+
+        txtNIK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNIKActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtNIK, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 210, 30));
+
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -197,22 +179,7 @@ public class dataSupplier extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTable2);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 1160, 300));
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable3);
-
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 1160, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1180, 300));
 
         txtAlamat.setColumns(20);
         txtAlamat.setRows(5);
@@ -308,37 +275,14 @@ public class dataSupplier extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        String ObjButton[] = {"YES","NO"};
-        int pilihan = JOptionPane.showOptionDialog(null,"Apakah Anda yakin ingin keluar...?","Message", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-            null,ObjButton,ObjButton[1]);
-        if(pilihan == 0){
-            System.exit(0);
-        }
+        dispose();
+//        String ObjButton[] = {"YES","NO"};
+//        int pilihan = JOptionPane.showOptionDialog(null,"Apakah Anda yakin ingin keluar...?","Message", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+//            null,ObjButton,ObjButton[1]);
+//        if(pilihan == 0){
+//            System.exit(0);
+//        }
     }//GEN-LAST:event_btnCloseActionPerformed
-
-    private void btnMaximizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMaximizeMouseClicked
-        if(maximixed){
-            dataSupplier.this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            dataSupplier.this.setMaximizedBounds(env.getMaximumWindowBounds());
-            maximixed = false;
-        } else {
-            setExtendedState(JFrame.NORMAL);
-            maximixed = true;
-        }
-    }//GEN-LAST:event_btnMaximizeMouseClicked
-
-    private void btnMaximizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaximizeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMaximizeActionPerformed
-
-    private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
-        this.setState(Frame.ICONIFIED);
-    }//GEN-LAST:event_btnMinimizeMouseClicked
-
-    private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
-        btnMinimize.setBackground(new Color(102,102,102));
-    }//GEN-LAST:event_btnMinimizeMouseEntered
 
     private void btnPilihTanggalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPilihTanggalMouseClicked
         // TODO add your handling code here:
@@ -367,6 +311,10 @@ public class dataSupplier extends javax.swing.JDialog {
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCariActionPerformed
+
+    private void txtNIKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNIKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNIKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,8 +363,6 @@ public class dataSupplier extends javax.swing.JDialog {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnHapus;
-    private javax.swing.JButton btnMaximize;
-    private javax.swing.JButton btnMinimize;
     private com.toedter.calendar.JDateChooser btnPilihTanggal;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
@@ -428,17 +374,29 @@ public class dataSupplier extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jPencarian;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea txtAlamat;
     private javax.swing.JTextField txtKodeSupplier;
+    private javax.swing.JTextField txtNIK;
     private javax.swing.JTextField txtNamaSupplier;
     private javax.swing.JTextField txtNoTelepon;
     // End of variables declaration//GEN-END:variables
+
+    private void setExtendedState(int MAXIMIZED_BOTH) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void setMaximizedBounds(Rectangle maximumWindowBounds) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void setState(int ICONIFIED) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

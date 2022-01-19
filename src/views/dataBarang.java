@@ -6,8 +6,13 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import static views.DashboardAdmin.maximixed;
 
 /**
@@ -23,14 +30,87 @@ import static views.DashboardAdmin.maximixed;
  */
 public class dataBarang extends javax.swing.JDialog {
 
+    private DefaultTableModel tabmode;
+    
+    public void tanggal(){
+        Date tgl = new Date();
+        btnPilihTanggal.setDate(tgl);
+    }
+    
+    public void noTable(){
+        int Baris = tabmode.getRowCount();
+        for (int a=0; a<Baris; a++)
+        {
+            String nomor = String.valueOf(a+1);
+            tabmode.setValueAt(nomor +".",a,0);
+        }
+    }
+    
+    public void dataTable(){
+        Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Kategori","Qty","Keterangan","Ukuran"};
+        tabmode = new DefaultTableModel(null, Baris);
+        tabelBarang.setModel(tabmode);
+        String sql = "select * from tb_barang order by kode_part asc";
+        try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()){
+                String tanggal = hasil.getString("tanggal");
+                String kode_part = hasil.getString("kode_part");
+                String nama_part = hasil.getString("nama_part");
+                String kategori = hasil.getString("kategori");
+                String jumlah = hasil.getString("jumlah");
+                String keterangan = hasil.getString("keterangan");
+                String[] data = {"",tanggal,kode_part,nama_part,kategori,jumlah,keterangan};
+                tabmode.addRow(data);
+                noTable();
+            }
+        } catch (Exception e){
+        }
+    }
+    
+    public void lebarKolom(){
+        TableColumn column;
+        tabelBarang.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        column = tabelBarang.getColumnModel().getColumn(0);
+        column.setPreferredWidth(40);
+        column = tabelBarang.getColumnModel().getColumn(1);
+        column.setPreferredWidth(150);
+        column = tabelBarang.getColumnModel().getColumn(2);
+        column.setPreferredWidth(150);
+        column = tabelBarang.getColumnModel().getColumn(3);
+        column.setPreferredWidth(200);
+        column = tabelBarang.getColumnModel().getColumn(4);
+        column.setPreferredWidth(150);
+        column = tabelBarang.getColumnModel().getColumn(5);
+        column.setPreferredWidth(100);
+        column = tabelBarang.getColumnModel().getColumn(6);
+        column.setPreferredWidth(309);
+    }
+    
+    private void aktif(){
+        txtKodeBahan.setEnabled(true);
+        txtNamaBarang.setEnabled(true);
+        txtJumlah.setEnabled(true);
+        txtKeterangan.setEnabled(true);
+    }
+
     /**
      * Creates new form dataBarang
      */
     public dataBarang(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
+        aktif();
+        tanggal();
+        dataTable();
+        lebarKolom();
+        txtKodeBahan.requestFocus();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,8 +123,6 @@ public class dataBarang extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
-        btnMaximize = new javax.swing.JButton();
-        btnMinimize = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -68,9 +146,11 @@ public class dataBarang extends javax.swing.JDialog {
         informasi = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelBarang = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(120, 122, 145));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,34 +176,6 @@ public class dataBarang extends javax.swing.JDialog {
             }
         });
 
-        btnMaximize.setBackground(new java.awt.Color(102, 102, 102));
-        btnMaximize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Maximize_Window_30px.png"))); // NOI18N
-        btnMaximize.setContentAreaFilled(false);
-        btnMaximize.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Maximize_Window_30px_1.png"))); // NOI18N
-        btnMaximize.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMaximizeMouseClicked(evt);
-            }
-        });
-        btnMaximize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMaximizeActionPerformed(evt);
-            }
-        });
-
-        btnMinimize.setBackground(new java.awt.Color(204, 204, 204));
-        btnMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Minimize_Window_30px.png"))); // NOI18N
-        btnMinimize.setContentAreaFilled(false);
-        btnMinimize.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Minimize_Window_30px_1.png"))); // NOI18N
-        btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseEntered(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("Data Bahan");
 
@@ -134,18 +186,12 @@ public class dataBarang extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 869, Short.MAX_VALUE)
-                .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnMaximize, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1001, Short.MAX_VALUE)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-            .addComponent(btnMaximize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnMinimize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(headerLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel8)
@@ -197,10 +243,22 @@ public class dataBarang extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnPilihTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 210, 30));
+
+        txtKodeBahan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtKodeBahanKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtKodeBahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 210, 30));
+
+        txtNamaBarang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNamaBarangKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtNamaBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 210, 30));
 
-        comboBoxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kapas", "Kain", "Item 3", "Item 4" }));
         comboBoxKategori.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxKategoriActionPerformed(evt);
@@ -213,11 +271,21 @@ public class dataBarang extends javax.swing.JDialog {
                 txtJumlahActionPerformed(evt);
             }
         });
+        txtJumlah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtJumlahKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtJumlah, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 210, 30));
 
         txtUkuran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUkuranActionPerformed(evt);
+            }
+        });
+        txtUkuran.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUkuranKeyPressed(evt);
             }
         });
         jPanel1.add(txtUkuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 210, 30));
@@ -280,7 +348,7 @@ public class dataBarang extends javax.swing.JDialog {
 
         jPanel1.add(informasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, 350, 180));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -291,30 +359,16 @@ public class dataBarang extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable2);
+        tabelBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelBarangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelBarang);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 1160, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1180, 300));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1180, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -328,37 +382,14 @@ public class dataBarang extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        String ObjButton[] = {"YES","NO"};
-        int pilihan = JOptionPane.showOptionDialog(null,"Apakah Anda yakin ingin keluar...?","Message", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-            null,ObjButton,ObjButton[1]);
-        if(pilihan == 0){
-            System.exit(0);
-        }
+        dispose();
+//        String ObjButton[] = {"YES","NO"};
+//        int pilihan = JOptionPane.showOptionDialog(null,"Apakah Anda yakin ingin keluar...?","Message", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+//            null,ObjButton,ObjButton[1]);
+//        if(pilihan == 0){
+//            System.exit(0);
+//        }
     }//GEN-LAST:event_btnCloseActionPerformed
-
-    private void btnMaximizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMaximizeMouseClicked
-        if(maximixed){
-            dataBarang.this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            dataBarang.this.setMaximizedBounds(env.getMaximumWindowBounds());
-            maximixed = false;
-        } else {
-            setExtendedState(JFrame.NORMAL);
-            maximixed = true;
-        }
-    }//GEN-LAST:event_btnMaximizeMouseClicked
-
-    private void btnMaximizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaximizeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMaximizeActionPerformed
-
-    private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
-        this.setState(Frame.ICONIFIED);
-    }//GEN-LAST:event_btnMinimizeMouseClicked
-
-    private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
-        btnMinimize.setBackground(new Color(102,102,102));
-    }//GEN-LAST:event_btnMinimizeMouseEntered
 
     private void btnPilihTanggalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPilihTanggalMouseClicked
         // TODO add your handling code here:
@@ -394,7 +425,68 @@ public class dataBarang extends javax.swing.JDialog {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
+        tanggal();
+        txtKodeBahan.requestFocus();
+        txtKodeBahan.setText(null);
+        txtNamaBarang.setText(null);
+        txtJumlah.setText(null);
+        txtKeterangan.setText(null);
+        txtUkuran.setText(null);
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tabelBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMouseClicked
+        // TODO add your handling code here:
+        int bar = tabelBarang.getSelectedRow();
+        String a = tabmode.getValueAt(bar, 0).toString();
+        String b = tabmode.getValueAt(bar, 1).toString();
+        String c = tabmode.getValueAt(bar, 2).toString();
+        String d = tabmode.getValueAt(bar, 3).toString();
+        String e = tabmode.getValueAt(bar, 4).toString();
+        String f = tabmode.getValueAt(bar, 5).toString();
+        String g = tabmode.getValueAt(bar, 6).toString();
+
+        SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateValue = null;
+        try{
+            dateValue = date.parse((String)tabelBarang.getValueAt(bar, 1));
+        } catch (ParseException ex){
+            Logger.getLogger(dataBarang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        btnPilihTanggal.setDate(dateValue);
+        txtKodeBahan.setText(c);
+        txtNamaBarang.setText(d);
+        txtJumlah.setText(f);
+        txtKeterangan.setText(g);
+    }//GEN-LAST:event_tabelBarangMouseClicked
+
+    private void txtKodeBahanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeBahanKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtNamaBarang.requestFocus();
+        }
+    }//GEN-LAST:event_txtKodeBahanKeyPressed
+
+    private void txtNamaBarangKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtJumlah.requestFocus();
+        }
+    }//GEN-LAST:event_txtNamaBarangKeyPressed
+
+    private void txtJumlahKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtUkuran.requestFocus();
+        }
+    }//GEN-LAST:event_txtJumlahKeyPressed
+
+    private void txtUkuranKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUkuranKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtKeterangan.requestFocus();
+        }
+    }//GEN-LAST:event_txtUkuranKeyPressed
 
     /**
      * @param args the command line arguments
@@ -442,8 +534,6 @@ public class dataBarang extends javax.swing.JDialog {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnHapus;
-    private javax.swing.JButton btnMaximize;
-    private javax.swing.JButton btnMinimize;
     private com.toedter.calendar.JDateChooser btnPilihTanggal;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
@@ -461,12 +551,24 @@ public class dataBarang extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable tabelBarang;
     private javax.swing.JTextField txtJumlah;
     private javax.swing.JTextArea txtKeterangan;
     private javax.swing.JTextField txtKodeBahan;
     private javax.swing.JTextField txtNamaBarang;
     private javax.swing.JTextField txtUkuran;
     // End of variables declaration//GEN-END:variables
+
+    private void setMaximizedBounds(Rectangle maximumWindowBounds) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void setExtendedState(int MAXIMIZED_BOTH) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void setState(int ICONIFIED) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
