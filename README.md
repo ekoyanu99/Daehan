@@ -11,5 +11,5 @@ Setelah itu buka Project Daehan Tool
 Lalu klik kanan pada bagian Libraries Project<br />
 ![alt text](https://media.giphy.com/media/Vcc6VkWgplJrgnbk5m/giphy.gif)<br /><br />
 
-Setelah masukan semua library yang telah di didownload<br />
+Setelah itu masukan semua library yang telah di didownload<br />
 ![alt text](https://media.giphy.com/media/B9niO8WyNYQ4sKvqKc/giphy.gif)<br />
