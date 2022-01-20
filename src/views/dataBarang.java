@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import net.proteanit.sql.DbUtils;
 import static views.DashboardAdmin.maximixed;
 
 /**
@@ -57,29 +58,30 @@ public class dataBarang extends javax.swing.JDialog {
     
     public void dataTable(){
         
-        Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Kategori","Qty","Keterangan","Ukuran"};
-        tabmode = new DefaultTableModel(null, Baris);
+        Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Qty","Keterangan","Ukuran"};
+        tabmode = new DefaultTableModel(Baris, 0);
         tabelBarang.setModel(tabmode);
-        String sql = "SELECT * from bahan order by kode_bahan asc";
+        String sql = "SELECT * from bahan";
         
         try{
-            Statement st = con.createStatement();
-            ResultSet hasil = st.executeQuery(sql);
+            rs = con.createStatement().executeQuery(sql);
 
-            while (hasil.next()){
-                String tanggal = hasil.getString("tanggal");
-                String kode_bahan = hasil.getString("kode_bahan");
-                String nama_barang = hasil.getString("nama_barang");
-                String kategori = hasil.getString("kategori");
-                String jumlah = hasil.getString("jumlah");
-                String keterangan = hasil.getString("keterangan");
-                String ukuran = hasil.getString("ukuran");
-                String[] data = {tanggal,kode_bahan,nama_barang,kategori,jumlah,keterangan,ukuran};
+            while (rs.next()){
+                String id_bahan = rs.getString("id_bahan");
+                String tanggal = rs.getString("tanggal");
+                String kode_bahan = rs.getString("kode_bahan");
+                String nama = rs.getString("nama");
+                String jumlah = rs.getString("jumlah");
+                String keterangan = rs.getString("keterangan");
+                String ukuran = rs.getString("ukuran");
+                String[] data = {tanggal,kode_bahan,nama,jumlah,keterangan,ukuran};
                 tabmode.addRow(data);
                 noTable();
             }
         } catch (Exception e){
+            System.out.println(e);
         }
+        
     }
     
     public void lebarKolom(){
@@ -123,10 +125,10 @@ public class dataBarang extends javax.swing.JDialog {
     public dataBarang(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        dataTable();
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
-        dataTable();
         aktif();
         tanggal();
         lebarKolom();
@@ -417,9 +419,20 @@ public class dataBarang extends javax.swing.JDialog {
                 tabelBarangMouseClicked(evt);
             }
         });
+        tabelBarang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tabelBarangKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelBarang);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1200, 310));
+
+        jPencarian.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPencarianKeyReleased(evt);
+            }
+        });
         jPanel1.add(jPencarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 330, 210, -1));
 
         btnCari.setText("Cari");
@@ -597,6 +610,14 @@ public class dataBarang extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Masukan Hanya 5 Digit Kode", "Input Kode", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_txtKodeBahanKeyTyped
+
+    private void tabelBarangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelBarangKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelBarangKeyReleased
+
+    private void jPencarianKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPencarianKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPencarianKeyReleased
 
     /**
      * @param args the command line arguments
