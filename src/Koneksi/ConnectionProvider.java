@@ -7,21 +7,26 @@ package Koneksi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ekoya
  */
 public class ConnectionProvider {
-    public static Connection getCon(){
-    
+    static Connection con;
+    public static Connection getConnection(){
+        //Penanganan exception jika gagal terhubung dengan database
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/daehan","root","");
-            return con;
-            
-        }catch(Exception e){
-            return null;
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"
+                    + "daehan","root","");
+            System.out.println("Koneksi berhasil");
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error : Gagal Terhubung ke "
+                    + "Database");
+            System.exit(0);
         }
+        return con;
     }
 }
