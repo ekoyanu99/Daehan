@@ -11,8 +11,13 @@ import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import static views.DashboardAdmin.maximixed;
 
 /**
@@ -21,6 +26,72 @@ import static views.DashboardAdmin.maximixed;
  */
 public class dataSupplier extends javax.swing.JDialog {
 
+    private DefaultTableModel tabmode;
+    
+    public void tanggal(){
+        Date tgl = new Date();
+        btnPilihTanggal.setDate(tgl);
+    }
+    
+    public void noTable(){
+        int Baris = tabmode.getRowCount();
+        for (int a=0; a<Baris; a++)
+        {
+            String nomor = String.valueOf(a+1);
+            tabmode.setValueAt(nomor +".",a,0);
+        }
+    }
+    
+    public void dataTable(){
+        Object[] Baris = {"No","Tanggal","Kode Supplier","Nama Supplier","No Telpon","NIK","Alamat"};
+        tabmode = new DefaultTableModel(null, Baris);
+        tabelSupplier.setModel(tabmode);
+        String sql = "select * from tb_supplier order by kode_supplier asc";
+        try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()){
+                String tanggal = hasil.getString("tanggal");
+                String kode_supplier = hasil.getString("kode_supplier");
+                String nama_supplier = hasil.getString("nama_supplier");
+                String notelpon_supplier = hasil.getString("notelpon_supplier");
+                String nik = hasil.getString("nik");
+                String alamat_supplier = hasil.getString("alamat_supplier");
+                String[] data = {"",tanggal,kode_supplier,nama_supplier,notelpon_supplier,nik,alamat_supplier};
+                tabmode.addRow(data);
+                noTable();
+            }
+        } catch (Exception e){
+        }
+    }
+    
+    public void lebarKolom(){
+        TableColumn column;
+        tabelSupplier.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        column = tabelSupplier.getColumnModel().getColumn(0);
+        column.setPreferredWidth(50);
+        column = tabelSupplier.getColumnModel().getColumn(1);
+        column.setPreferredWidth(150);
+        column = tabelSupplier.getColumnModel().getColumn(2);
+        column.setPreferredWidth(150);
+        column = tabelSupplier.getColumnModel().getColumn(3);
+        column.setPreferredWidth(200);
+        column = tabelSupplier.getColumnModel().getColumn(4);
+        column.setPreferredWidth(150);
+        column = tabelSupplier.getColumnModel().getColumn(5);
+        column.setPreferredWidth(164);
+        column = tabelSupplier.getColumnModel().getColumn(6);
+        column.setPreferredWidth(310);
+    }
+    
+    private void aktif(){
+        txtKodeSupplier.setEnabled(true);
+        txtNamaSupplier.setEnabled(true);
+        txtNoTelepon.setEnabled(true);
+        txtNIK.setEnabled(true);
+        txtAlamat.setEnabled(true);
+    }
+    
     /**
      * Creates new form dataSupplier
      */
@@ -30,6 +101,11 @@ public class dataSupplier extends javax.swing.JDialog {
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
+        aktif();
+        tanggal();
+        dataTable();
+        lebarKolom();
+        txtKodeSupplier.requestFocus();
     }
 
     /**
@@ -56,7 +132,7 @@ public class dataSupplier extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         txtNIK = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelSupplier = new javax.swing.JTable();
         txtAlamat = new javax.swing.JTextArea();
         btnSimpan = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
@@ -143,16 +219,34 @@ public class dataSupplier extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Kode Supplier");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
+
+        txtKodeSupplier.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtKodeSupplierKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtKodeSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 210, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Nama Supplier");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
+
+        txtNoTelepon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNoTeleponKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtNoTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 210, 30));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Nomer Telepon");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
+
+        txtNamaSupplier.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNamaSupplierKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtNamaSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 210, 30));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -164,9 +258,14 @@ public class dataSupplier extends javax.swing.JDialog {
                 txtNIKActionPerformed(evt);
             }
         });
+        txtNIK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNIKKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtNIK, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 210, 30));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -177,7 +276,7 @@ public class dataSupplier extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable2);
+        jScrollPane1.setViewportView(tabelSupplier);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1180, 300));
 
@@ -316,6 +415,34 @@ public class dataSupplier extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNIKActionPerformed
 
+    private void txtKodeSupplierKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeSupplierKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtNamaSupplier.requestFocus();
+        }
+    }//GEN-LAST:event_txtKodeSupplierKeyPressed
+
+    private void txtNamaSupplierKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaSupplierKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtNoTelepon.requestFocus();
+        }
+    }//GEN-LAST:event_txtNamaSupplierKeyPressed
+
+    private void txtNoTeleponKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoTeleponKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtNIK.requestFocus();
+        }
+    }//GEN-LAST:event_txtNoTeleponKeyPressed
+
+    private void txtNIKKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNIKKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            txtAlamat.requestFocus();
+        }
+    }//GEN-LAST:event_txtNIKKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -379,8 +506,8 @@ public class dataSupplier extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jPencarian;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable tabelSupplier;
     private javax.swing.JTextArea txtAlamat;
     private javax.swing.JTextField txtKodeSupplier;
     private javax.swing.JTextField txtNIK;

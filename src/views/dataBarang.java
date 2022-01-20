@@ -73,7 +73,7 @@ public class dataBarang extends javax.swing.JDialog {
         TableColumn column;
         tabelBarang.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         column = tabelBarang.getColumnModel().getColumn(0);
-        column.setPreferredWidth(40);
+        column.setPreferredWidth(50);
         column = tabelBarang.getColumnModel().getColumn(1);
         column.setPreferredWidth(150);
         column = tabelBarang.getColumnModel().getColumn(2);
@@ -83,9 +83,9 @@ public class dataBarang extends javax.swing.JDialog {
         column = tabelBarang.getColumnModel().getColumn(4);
         column.setPreferredWidth(150);
         column = tabelBarang.getColumnModel().getColumn(5);
-        column.setPreferredWidth(100);
+        column.setPreferredWidth(109);
         column = tabelBarang.getColumnModel().getColumn(6);
-        column.setPreferredWidth(309);
+        column.setPreferredWidth(310);
     }
     
     private void aktif(){
@@ -147,6 +147,8 @@ public class dataBarang extends javax.swing.JDialog {
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelBarang = new javax.swing.JTable();
+        jPencarian = new javax.swing.JTextField();
+        btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -186,7 +188,7 @@ public class dataBarang extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1001, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1021, Short.MAX_VALUE)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         headerLayout.setVerticalGroup(
@@ -198,7 +200,7 @@ public class dataBarang extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 50));
+        jPanel1.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 50));
 
         jLabel1.setBackground(new java.awt.Color(24, 104, 174));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -247,6 +249,9 @@ public class dataBarang extends javax.swing.JDialog {
         txtKodeBahan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKodeBahanKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtKodeBahanKeyTyped(evt);
             }
         });
         jPanel1.add(txtKodeBahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 210, 30));
@@ -366,9 +371,18 @@ public class dataBarang extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tabelBarang);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1180, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1200, 310));
+        jPanel1.add(jPencarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 330, 210, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        btnCari.setText("Cari");
+        btnCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 330, -1, 30));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -488,6 +502,20 @@ public class dataBarang extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtUkuranKeyPressed
 
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCariActionPerformed
+
+    private void txtKodeBahanKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeBahanKeyTyped
+        // TODO add your handling code here:
+        char enter=evt.getKeyChar();
+        if(!(Character.isDigit(enter)))
+        {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Masukan Hanya 5 Digit Kode", "Input Kode", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtKodeBahanKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -531,6 +559,7 @@ public class dataBarang extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCari;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnHapus;
@@ -550,6 +579,7 @@ public class dataBarang extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jPencarian;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tabelBarang;
