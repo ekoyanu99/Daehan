@@ -5,6 +5,7 @@
  */
 package views;
 
+import Koneksi.ConnectionProvider;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -12,7 +13,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +34,9 @@ import static views.DashboardAdmin.maximixed;
  * @author ekoya
  */
 public class dataBarang extends javax.swing.JDialog {
+    Statement st;
+    Connection con = ConnectionProvider.getConnection();
+    ResultSet rs;
 
     private DefaultTableModel tabmode;
     
@@ -50,18 +58,18 @@ public class dataBarang extends javax.swing.JDialog {
         Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Kategori","Qty","Keterangan","Ukuran"};
         tabmode = new DefaultTableModel(null, Baris);
         tabelBarang.setModel(tabmode);
-        String sql = "select * from tb_barang order by kode_part asc";
+        String sql = "select * from bahan order by kode_part asc";
         try{
-            java.sql.Statement stat = conn.createStatement();
+            java.sql.Statement stat = con.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()){
                 String tanggal = hasil.getString("tanggal");
-                String kode_part = hasil.getString("kode_part");
-                String nama_part = hasil.getString("nama_part");
+                String kode_bahan = hasil.getString("kode_bahan");
+                String nama_barang = hasil.getString("nama_barang");
                 String kategori = hasil.getString("kategori");
                 String jumlah = hasil.getString("jumlah");
                 String keterangan = hasil.getString("keterangan");
-                String[] data = {"",tanggal,kode_part,nama_part,kategori,jumlah,keterangan};
+                String[] data = {"",tanggal,kode_bahan,nama_barang,kategori,jumlah,keterangan};
                 tabmode.addRow(data);
                 noTable();
             }
@@ -93,6 +101,14 @@ public class dataBarang extends javax.swing.JDialog {
         txtNamaBarang.setEnabled(true);
         txtJumlah.setEnabled(true);
         txtKeterangan.setEnabled(true);
+    }
+    
+    protected void kosong(){
+        txtKodeBahan.setText(null);
+        txtNamaBarang.setText(null);
+        txtJumlah.setText(null);
+        txtUkuran.setText(null);
+        txtKeterangan.setText(null);
     }
 
     /**
@@ -431,6 +447,36 @@ public class dataBarang extends javax.swing.JDialog {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
+        if(txtKodeBahan.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Kode Barang tidak boleh kosong");
+        } else if (txtNamaBarang.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Nama Barang tidak boleh kosong");
+        } else if (txtJumlah.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Jumlah tidak boleh kosong");
+        }  else {
+        String sql = "insert into bahan values (?,?,?,?,?,?)";
+        String tampilan = "dd-MM-yyyy";
+        SimpleDateFormat fm = new SimpleDateFormat(tampilan);
+        String tanggal = String.valueOf(fm.format(btnPilihTanggal.getDate()));
+        try {
+            PreparedStatement stat = con.prepareStatement(sql);
+            stat.setString(1, tanggal.toString());
+            stat.setString(2, txtKodeBahan.getText());
+            stat.setString(3, txtNamaBarang.getText());
+            stat.setString(4, comboBoxKategori.getSelectedItem().toString());
+            stat.setString(5, txtJumlah.getText());
+            stat.setString(6, txtKeterangan.getText());
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Data Berhasil Disimpan");
+            //            String refresh = "select * from tb_barang";
+            kosong();
+            dataTable();
+            lebarKolom();
+            txtKodeBahan.requestFocus();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Disimpan"+e);
+        }
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
