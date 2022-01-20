@@ -39,6 +39,7 @@ public class dataBarang extends javax.swing.JDialog {
     ResultSet rs;
 
     private DefaultTableModel tabmode;
+    private String id_bahan;
     
     public void tanggal(){
         Date tgl = new Date();
@@ -55,13 +56,16 @@ public class dataBarang extends javax.swing.JDialog {
     }
     
     public void dataTable(){
+        
         Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Kategori","Qty","Keterangan","Ukuran"};
         tabmode = new DefaultTableModel(null, Baris);
         tabelBarang.setModel(tabmode);
-        String sql = "select * from bahan order by kode_part asc";
+        String sql = "SELECT * from bahan order by kode_bahan asc";
+        
         try{
-            java.sql.Statement stat = con.createStatement();
-            ResultSet hasil = stat.executeQuery(sql);
+            Statement st = con.createStatement();
+            ResultSet hasil = st.executeQuery(sql);
+
             while (hasil.next()){
                 String tanggal = hasil.getString("tanggal");
                 String kode_bahan = hasil.getString("kode_bahan");
@@ -69,7 +73,8 @@ public class dataBarang extends javax.swing.JDialog {
                 String kategori = hasil.getString("kategori");
                 String jumlah = hasil.getString("jumlah");
                 String keterangan = hasil.getString("keterangan");
-                String[] data = {"",tanggal,kode_bahan,nama_barang,kategori,jumlah,keterangan};
+                String ukuran = hasil.getString("ukuran");
+                String[] data = {tanggal,kode_bahan,nama_barang,kategori,jumlah,keterangan,ukuran};
                 tabmode.addRow(data);
                 noTable();
             }
@@ -114,17 +119,44 @@ public class dataBarang extends javax.swing.JDialog {
     /**
      * Creates new form dataBarang
      */
+    
     public dataBarang(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
+        dataTable();
         aktif();
         tanggal();
-        dataTable();
         lebarKolom();
         txtKodeBahan.requestFocus();
+        
+        //buat id question
+        try{
+            Connection con = ConnectionProvider.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select count(id_bahan) from bahan");
+//            int id_bahan = rs.getInt(1);
+//            id_bahan = id_bahan+1;
+            
+            if(rs.first()){
+            int id_bahan = rs.getInt(1);
+            id_bahan = id_bahan+1;
+            
+            }else
+                id_bahan = null;
+            
+//            while(rs.first()){
+//                int id_bahan = rs.getInt(1);
+//                id_bahan = id_bahan+1;
+//            }
+            
+        }catch(Exception e){
+            JFrame jf=new JFrame();
+            jf.setAlwaysOnTop(true);
+            JOptionPane.showMessageDialog(jf,e);
+        }
     }
     
     /**
@@ -454,21 +486,23 @@ public class dataBarang extends javax.swing.JDialog {
         } else if (txtJumlah.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Jumlah tidak boleh kosong");
         }  else {
-        String sql = "insert into bahan values (?,?,?,?,?,?)";
+        String sql = "INSERT into bahan values (?,?,?,?,?,?,?,?)";
         String tampilan = "dd-MM-yyyy";
         SimpleDateFormat fm = new SimpleDateFormat(tampilan);
         String tanggal = String.valueOf(fm.format(btnPilihTanggal.getDate()));
         try {
             PreparedStatement stat = con.prepareStatement(sql);
-            stat.setString(1, tanggal.toString());
-            stat.setString(2, txtKodeBahan.getText());
-            stat.setString(3, txtNamaBarang.getText());
-            stat.setString(4, comboBoxKategori.getSelectedItem().toString());
-            stat.setString(5, txtJumlah.getText());
-            stat.setString(6, txtKeterangan.getText());
+            stat.setString(1, id_bahan);
+            stat.setString(2, tanggal.toString());
+            stat.setString(3, txtKodeBahan.getText());
+            stat.setString(4, txtNamaBarang.getText());
+            stat.setString(5, comboBoxKategori.getSelectedItem().toString());
+            stat.setString(6, txtJumlah.getText());
+            stat.setString(7, txtUkuran.getText());
+            stat.setString(8, txtKeterangan.getText());
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null,"Data Berhasil Disimpan");
-            //            String refresh = "select * from tb_barang";
+            //            String refresh = "select * from bahan";
             kosong();
             dataTable();
             lebarKolom();
@@ -496,6 +530,7 @@ public class dataBarang extends javax.swing.JDialog {
 
     private void tabelBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMouseClicked
         // TODO add your handling code here:
+        
         int bar = tabelBarang.getSelectedRow();
         String a = tabmode.getValueAt(bar, 0).toString();
         String b = tabmode.getValueAt(bar, 1).toString();
@@ -516,8 +551,9 @@ public class dataBarang extends javax.swing.JDialog {
         btnPilihTanggal.setDate(dateValue);
         txtKodeBahan.setText(c);
         txtNamaBarang.setText(d);
-        txtJumlah.setText(f);
-        txtKeterangan.setText(g);
+        txtJumlah.setText(e);
+        txtKeterangan.setText(f);
+        txtUkuran.setText(g);
     }//GEN-LAST:event_tabelBarangMouseClicked
 
     private void txtKodeBahanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeBahanKeyPressed
@@ -645,6 +681,10 @@ public class dataBarang extends javax.swing.JDialog {
     }
 
     private void setState(int ICONIFIED) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void print(String hehe) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
