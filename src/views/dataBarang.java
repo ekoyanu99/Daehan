@@ -58,7 +58,7 @@ public class dataBarang extends javax.swing.JDialog {
     
     public void dataTable(){
         
-        Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Qty","Keterangan","Ukuran"};
+        Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Kategori","Qty","Keterangan","Ukuran"};
         tabmode = new DefaultTableModel(Baris, 0);
         tabelBarang.setModel(tabmode);
         String sql = "SELECT * from bahan";
@@ -71,10 +71,11 @@ public class dataBarang extends javax.swing.JDialog {
                 String tanggal = rs.getString("tanggal");
                 String kode_bahan = rs.getString("kode_bahan");
                 String nama = rs.getString("nama");
+                String kategori = rs.getString("kategori");
                 String jumlah = rs.getString("jumlah");
                 String keterangan = rs.getString("keterangan");
                 String ukuran = rs.getString("ukuran");
-                String[] data = {tanggal,kode_bahan,nama,jumlah,keterangan,ukuran};
+                String[] data = {"",tanggal,kode_bahan,nama,kategori,jumlah,keterangan,ukuran};
                 tabmode.addRow(data);
                 noTable();
             }
@@ -116,6 +117,34 @@ public class dataBarang extends javax.swing.JDialog {
         txtJumlah.setText(null);
         txtUkuran.setText(null);
         txtKeterangan.setText(null);
+    }
+    
+    public void pencarian(String sql){
+        Object[] Baris = {"No","Tanggal","Kode Bahan","Nama Bahan","Kategori","Qty","Keterangan","Ukuran"};
+        tabmode = new DefaultTableModel(null, Baris);
+        tabelBarang.setModel(tabmode);
+        int brs = tabelBarang.getRowCount();
+        for (int i = 0; 1 < brs; i++){
+            tabmode.removeRow(1);
+        }
+        try{
+            rs = con.createStatement().executeQuery(sql);
+            
+            while (rs.next()){
+                String id_bahan = rs.getString("id_bahan");
+                String tanggal = rs.getString("tanggal");
+                String kode_bahan = rs.getString("kode_bahan");
+                String nama = rs.getString("nama");
+                String kategori = rs.getString("kategori");
+                String jumlah = rs.getString("jumlah");
+                String keterangan = rs.getString("keterangan");
+                String ukuran = rs.getString("ukuran");
+                String[] data = {"",tanggal,kode_bahan,nama,kategori,jumlah,keterangan,ukuran};
+                tabmode.addRow(data);
+                noTable();
+            }
+        } catch(Exception e){
+        }
     }
 
     /**
@@ -197,7 +226,7 @@ public class dataBarang extends javax.swing.JDialog {
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelBarang = new javax.swing.JTable();
-        jPencarian = new javax.swing.JTextField();
+        txtCari = new javax.swing.JTextField();
         btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -296,6 +325,11 @@ public class dataBarang extends javax.swing.JDialog {
         });
         jPanel1.add(btnPilihTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 210, 30));
 
+        txtKodeBahan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKodeBahanActionPerformed(evt);
+            }
+        });
         txtKodeBahan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKodeBahanKeyPressed(evt);
@@ -428,12 +462,15 @@ public class dataBarang extends javax.swing.JDialog {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 1200, 310));
 
-        jPencarian.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jPencarianKeyReleased(evt);
+                txtCariKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCariKeyTyped(evt);
             }
         });
-        jPanel1.add(jPencarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 330, 210, -1));
+        jPanel1.add(txtCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 330, 210, -1));
 
         btnCari.setText("Cari");
         btnCari.addActionListener(new java.awt.event.ActionListener() {
@@ -488,12 +525,28 @@ public class dataBarang extends javax.swing.JDialog {
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
+        int ok = JOptionPane.showConfirmDialog (null," Apakah anda yakin ingin "
+            + "menghapus data","Konfirmasi Dialog", JOptionPane.YES_NO_OPTION);
+        if (ok==0){
+            String sql="delete from bahan where kode_bahan='"+txtKodeBahan.getText()+"'";
+            try {
+                PreparedStatement stat=con.prepareStatement(sql);
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null,"Data Berhasil Dihapus");
+                kosong();
+                dataTable();
+                lebarKolom();
+                txtKodeBahan.requestFocus();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data Gagal Dihapus"+e);
+            }
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
         if(txtKodeBahan.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Kode Barang tidak boleh kosong");
+            JOptionPane.showMessageDialog(null, "Kode Bahan tidak boleh kosong");
         } else if (txtNamaBarang.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Nama Barang tidak boleh kosong");
         } else if (txtJumlah.getText().equals("")){
@@ -528,6 +581,30 @@ public class dataBarang extends javax.swing.JDialog {
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
         // TODO add your handling code here:
+        String sql = "update bahan set tanggal=?,kode_bahan=?,nama=?,kategori=?,jumlah=?,ukuran=?,keterangan=? where kode_bahan='"+txtKodeBahan.getText()+"'";
+        String tampilan = "dd-MM-yyyy";
+        SimpleDateFormat fm = new SimpleDateFormat(tampilan);
+        String tanggal = String.valueOf(fm.format(btnPilihTanggal.getDate()));
+        try {
+            PreparedStatement stat = con.prepareStatement(sql);
+            stat.setString(1, tanggal.toString());
+            stat.setString(2, txtKodeBahan.getText());
+            stat.setString(3, txtNamaBarang.getText());
+            stat.setString(4, comboBoxKategori.getSelectedItem().toString());
+            stat.setString(5, txtJumlah.getText());
+            stat.setString(6, txtUkuran.getText());
+            stat.setString(7, txtKeterangan.getText());
+            stat.executeUpdate();
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
+            //            String refresh = "select * from bahan";
+            kosong();
+            dataTable();
+            lebarKolom();
+            txtKodeBahan.requestFocus();
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Data Gagal Diubah"+e);
+        }
     }//GEN-LAST:event_btnUbahActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -552,6 +629,7 @@ public class dataBarang extends javax.swing.JDialog {
         String e = tabmode.getValueAt(bar, 4).toString();
         String f = tabmode.getValueAt(bar, 5).toString();
         String g = tabmode.getValueAt(bar, 6).toString();
+        String h = tabmode.getValueAt(bar, 7).toString();
 
         SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
         Date dateValue = null;
@@ -564,9 +642,11 @@ public class dataBarang extends javax.swing.JDialog {
         btnPilihTanggal.setDate(dateValue);
         txtKodeBahan.setText(c);
         txtNamaBarang.setText(d);
-        txtJumlah.setText(e);
-        txtKeterangan.setText(f);
-        txtUkuran.setText(g);
+//        Belum bisa ngikut kalau di klik
+        comboBoxKategori.setSelectedItem(e);
+        txtJumlah.setText(f);
+        txtKeterangan.setText(g);
+        txtUkuran.setText(h);
     }//GEN-LAST:event_tabelBarangMouseClicked
 
     private void txtKodeBahanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeBahanKeyPressed
@@ -607,7 +687,7 @@ public class dataBarang extends javax.swing.JDialog {
         if(!(Character.isDigit(enter)))
         {
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Masukan Hanya 5 Digit Kode", "Input Kode", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Masukan hanya angka sebanyak 5 Digit", "Input Kode", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_txtKodeBahanKeyTyped
 
@@ -615,9 +695,20 @@ public class dataBarang extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_tabelBarangKeyReleased
 
-    private void jPencarianKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPencarianKeyReleased
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPencarianKeyReleased
+    }//GEN-LAST:event_txtCariKeyReleased
+
+    private void txtCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyTyped
+        // TODO add your handling code here:
+        String sqlPencarian = "select * from bahan where kode_bahan like '%"+txtCari.getText()+"%' or nama like '%"+txtCari.getText()+"%'";
+        pencarian(sqlPencarian);
+        lebarKolom();
+    }//GEN-LAST:event_txtCariKeyTyped
+
+    private void txtKodeBahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKodeBahanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtKodeBahanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -682,10 +773,10 @@ public class dataBarang extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jPencarian;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tabelBarang;
+    private javax.swing.JTextField txtCari;
     private javax.swing.JTextField txtJumlah;
     private javax.swing.JTextArea txtKeterangan;
     private javax.swing.JTextField txtKodeBahan;
