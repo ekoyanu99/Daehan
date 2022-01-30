@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
  */
 public class LoginAdmin extends javax.swing.JFrame {
 
-    private Connection conn = ConnectionProvider.getCon();
+    private Connection conn = ConnectionProvider.getConnection();
     /**
      * Creates new form LoginAdmin
      */

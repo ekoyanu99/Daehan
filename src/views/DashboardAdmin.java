@@ -86,8 +86,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
         panelMasterData = new javax.swing.JPanel();
         btnDataBarang = new javax.swing.JButton();
         btnDataSupplier = new javax.swing.JButton();
-        btnDataGudang = new javax.swing.JButton();
-        btnDataKategori = new javax.swing.JButton();
         panelTransaksi = new javax.swing.JPanel();
         btnBarangMasuk = new javax.swing.JButton();
         btnBarangKeluar = new javax.swing.JButton();
@@ -373,62 +371,12 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnDataGudang.setBackground(new java.awt.Color(120, 122, 145));
-        btnDataGudang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnDataGudang.setForeground(new java.awt.Color(255, 255, 255));
-        btnDataGudang.setText("  > Data Gudang");
-        btnDataGudang.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btnDataGudang.setContentAreaFilled(false);
-        btnDataGudang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDataGudang.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnDataGudang.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnDataGudang.setOpaque(true);
-        btnDataGudang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnDataGudangMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnDataGudangMouseExited(evt);
-            }
-        });
-        btnDataGudang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDataGudangActionPerformed(evt);
-            }
-        });
-
-        btnDataKategori.setBackground(new java.awt.Color(120, 122, 145));
-        btnDataKategori.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnDataKategori.setForeground(new java.awt.Color(255, 255, 255));
-        btnDataKategori.setText("  > Data Kategori");
-        btnDataKategori.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btnDataKategori.setContentAreaFilled(false);
-        btnDataKategori.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDataKategori.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnDataKategori.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnDataKategori.setOpaque(true);
-        btnDataKategori.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnDataKategoriMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnDataKategoriMouseExited(evt);
-            }
-        });
-        btnDataKategori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDataKategoriActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelMasterDataLayout = new javax.swing.GroupLayout(panelMasterData);
         panelMasterData.setLayout(panelMasterDataLayout);
         panelMasterDataLayout.setHorizontalGroup(
             panelMasterDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnDataBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(btnDataBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDataSupplier, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(btnDataGudang, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(btnDataKategori, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
         panelMasterDataLayout.setVerticalGroup(
             panelMasterDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,10 +385,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addComponent(btnDataBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnDataSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnDataGudang, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnDataKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         panelTransaksi.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -638,7 +583,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                     .addComponent(panelMasterData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelUtamaLayout.setVerticalGroup(
             panelUtamaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,36 +742,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
         new dataSupplier(this, rootPaneCheckingEnabled).show();
     }//GEN-LAST:event_btnDataSupplierActionPerformed
 
-    private void btnDataGudangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataGudangMouseEntered
-        btnDataGudang.setForeground(Color.red);
-        btnDataGudang.setBackground(new Color(0,0,102));
-    }//GEN-LAST:event_btnDataGudangMouseEntered
-
-    private void btnDataGudangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataGudangMouseExited
-        btnDataGudang.setForeground(Color.white);
-        btnDataGudang.setBackground(new Color(120,122,145));
-    }//GEN-LAST:event_btnDataGudangMouseExited
-
-    private void btnDataGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataGudangActionPerformed
-        panelMasterData.setVisible(false);
-        new dataGudang(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_btnDataGudangActionPerformed
-
-    private void btnDataKategoriMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataKategoriMouseEntered
-        btnDataKategori.setForeground(Color.red);
-        btnDataKategori.setBackground(new Color(0,0,102));
-    }//GEN-LAST:event_btnDataKategoriMouseEntered
-
-    private void btnDataKategoriMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDataKategoriMouseExited
-        btnDataKategori.setForeground(Color.white);
-        btnDataKategori.setBackground(new Color(120,122,145));
-    }//GEN-LAST:event_btnDataKategoriMouseExited
-
-    private void btnDataKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataKategoriActionPerformed
-        panelMasterData.setVisible(false);
-        new dataKategori(this, rootPaneCheckingEnabled).show();
-    }//GEN-LAST:event_btnDataKategoriActionPerformed
-
     private void btnBarangMasukMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBarangMasukMouseEntered
         btnBarangMasuk.setForeground(Color.red);
         btnBarangMasuk.setBackground(new Color(0,0,102));
@@ -973,8 +888,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnBarangMasuk;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDataBarang;
-    private javax.swing.JButton btnDataGudang;
-    private javax.swing.JButton btnDataKategori;
     private javax.swing.JButton btnDataSupplier;
     private javax.swing.JButton btnLapBarangKeluar;
     private javax.swing.JButton btnLapBarangMasuk;
