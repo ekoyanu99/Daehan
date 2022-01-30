@@ -326,8 +326,8 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         aktif();
-        autoIdBM();
-        autoIdBM_DT();
+        //autoIdBM();
+        //autoIdBM_DT();
         dataTable();
         dataTable2();
         dataTable3();

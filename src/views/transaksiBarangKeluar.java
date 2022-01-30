@@ -327,8 +327,8 @@ public class transaksiBarangKeluar extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         aktif();
-        autoIdBK();
-        autoIdBK_DT();
+        //autoIdBK();
+        //autoIdBK_DT();
         dataTable();
         dataTable2();
         dataTable3();

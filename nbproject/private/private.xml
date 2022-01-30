@@ -4,7 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/xampp/htdocs/DaehanTool/src/views/dataBarang.java</file>
+            <file>file:/D:/xampp/htdocs/DaehanTool/src/views/transaksiBarangMasuk.java</file>
+            <file>file:/D:/xampp/htdocs/DaehanTool/src/views/laporanBarangKeluar.java</file>
             <file>file:/D:/xampp/htdocs/DaehanTool/src/views/dataSupplier.java</file>
+            <file>file:/D:/xampp/htdocs/DaehanTool/src/views/DashboardAdmin.java</file>
+            <file>file:/D:/xampp/htdocs/DaehanTool/src/views/transaksiBarangKeluar.java</file>
         </group>
     </open-files>
 </project-private>
