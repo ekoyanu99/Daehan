@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import koneksi.koneksi;
+import Koneksi.ConnectionProvider;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -34,7 +34,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class transaksiBarangMasuk extends javax.swing.JDialog {
 
-    public final Connection conn = new koneksi().connect();
+    public final Connection conn = ConnectionProvider.getConnection();
 
     private DefaultTableModel tabmode;
     private DefaultTableModel tabmode2;
@@ -52,25 +52,25 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
 
     private void aktif() {
         txtIdBarangMasuk.setEnabled(true);
-        txtSupplier.setEnabled(true);
-        txtKodePart.setEnabled(true);
-        txtNamaPart.setEnabled(true);
+        txtNamaBarang.setEnabled(true);
+        txtKodeBahan.setEnabled(true);
+        comboBoxKategori.setEnabled(true);
         txtJumlahBarang.setEnabled(true);
         txtKeterangan.setEnabled(true);
     }
 
     protected void kosong() {
         txtIdBarangMasuk.setText(null);
-        txtSupplier.setText(null);
-        txtKodePart.setText(null);
-        txtNamaPart.setText(null);
+        txtNamaBarang.setText(null);
+        txtKodeBahan.setText(null);
+        comboBoxKategori.setEnabled(true);
         txtJumlahBarang.setText(null);
         txtKeterangan.setText(null);
     }
 
     protected void kosong2() {
-        txtKodePart.setText(null);
-        txtNamaPart.setText(null);
+        txtKodeBahan.setText(null);
+        comboBoxKategori.setEnabled(true);
         txtJumlahBarang.setText(null);
         txtKeterangan.setText(null);
     }
@@ -90,7 +90,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
 
     private void autoIdBM() {
         try {
-            Connection con = new koneksi().connect();
+            Connection con = ConnectionProvider.getConnection();
             java.sql.Statement stat = con.createStatement();
             String sql = "select max(right (id_bm,6)) as no from tb_brg_masuk";
             ResultSet res = stat.executeQuery(sql);
@@ -118,7 +118,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
 
     private void autoIdBM_DT() {
         try {
-            Connection con = new koneksi().connect();
+            Connection con = ConnectionProvider.getConnection();
             java.sql.Statement stat = con.createStatement();
             String sql_dt = "select max(right (id_detail_bm,4)) as no from tb_detail_brg_masuk";
             ResultSet res_dt = stat.executeQuery(sql_dt);
@@ -145,7 +145,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     }
         
     public void dataTable() {
-        Object[] Baris = {"No", "Tanggal","ID Detail BM", "ID BM", "Supplier", "Kode Part", "Nama Part", "Qty", "Keterangan"};
+        Object[] Baris = {"No", "Tanggal", "ID Detail BM" ,"ID BM","Nama Barang","Kode Bahan","Kategori","Jumlah","Keterangan"};
         tabmode = new DefaultTableModel(null, Baris);
         tabelBarangMasuk.setModel(tabmode);
         String sql = "select * from tb_detail_brg_masuk order by tanggal asc";
@@ -156,12 +156,12 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                 String tanggal = hasil.getString("tanggal");
                 String id_detail_bm = hasil.getString("id_detail_bm");
                 String id_bm = hasil.getString("id_bm");
-                String supplier = hasil.getString("supplier");
-                String kode_part = hasil.getString("kode_part");
-                String nama_part = hasil.getString("nama_part");
+                String nama_barang = hasil.getString("nama_barang");
+                String kode_bahan = hasil.getString("kode_bahan");
+                String kategori = hasil.getString("kategori");
                 String jumlah = hasil.getString("jumlah");
                 String keterangan = hasil.getString("keterangan");
-                String[] data = {"", tanggal, id_detail_bm, id_bm, supplier, kode_part, nama_part, jumlah, keterangan};
+                String[] data = {"",tanggal,id_detail_bm,id_bm,nama_barang,kode_bahan,kategori,jumlah,keterangan};
                 tabmode.addRow(data);
                 noTable();
             }
@@ -170,7 +170,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     }
 
     public void dataTable2() {
-        Object[] Baris = {"Kode Part", "Nama Part"};
+        Object[] Baris = {"Kode Bahan","Kategori"};
         tabmode2 = new DefaultTableModel(null, Baris);
         tabelBarang.setModel(tabmode2);
         String sql = "select * from tb_barang order by kode_part asc";
@@ -178,9 +178,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
             java.sql.Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
-                String kode_part = hasil.getString("kode_part");
-                String nama_part = hasil.getString("nama_part");
-                String[] data = {kode_part, nama_part};
+                String kode_bahan = hasil.getString("kode_bahan");
+                String kategori = hasil.getString("kategori");
+                String[] data = {kode_bahan,kategori};
                 tabmode2.addRow(data);
             }
         } catch (Exception e) {
@@ -247,7 +247,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     }
 
     public void pencarian(String sql) {
-        Object[] Baris = {"No", "Tanggal", "ID Detail BM" ,"ID BM", "Supplier", "Kode Part", "Nama Part", "Qty", "Keterangan"};
+        Object[] Baris = {"No", "Tanggal", "ID Detail BM" ,"ID BM", "Nama Barang","Kode Bahan","Kategori","Jumlah","Keterangan"};
         tabmode = new DefaultTableModel(null, Baris);
         tabelBarangMasuk.setModel(tabmode);
         int brs = tabelBarangMasuk.getRowCount();
@@ -261,12 +261,12 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                 String tanggal = hasil.getString("tanggal");
                 String id_detail_bm = hasil.getString("id_detail_bm");
                 String id_bm = hasil.getString("id_bm");
-                String supplier = hasil.getString("supplier");
-                String kode_part = hasil.getString("kode_part");
-                String nama_part = hasil.getString("nama_part");
+                String nama_barang = hasil.getString("nama_barang");
+                String kode_bahan = hasil.getString("kode_bahan");
+                String kategori = hasil.getString("kategori");
                 String jumlah = hasil.getString("jumlah");
                 String keterangan = hasil.getString("keterangan");
-                String[] data = {"", tanggal, id_detail_bm, id_bm ,supplier, kode_part, nama_part, jumlah, keterangan};
+                String[] data = {"", tanggal, id_detail_bm, id_bm ,nama_barang,kode_bahan,kategori,jumlah, keterangan};
                 tabmode.addRow(data);
                 noTable();
             }
@@ -276,7 +276,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     }
 
     public void pencarian2(String sql) {
-        Object[] Baris2 = {"Kode Part", "Nama Part"};
+        Object[] Baris2 = {"Kode Bahan","Kategori"};
         tabmode2 = new DefaultTableModel(null, Baris2);
         tabelBarang.setModel(tabmode2);
         int brs = tabelBarang.getRowCount();
@@ -287,9 +287,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
             java.sql.Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
-                String kode_part = hasil.getString("kode_part");
-                String nama_part = hasil.getString("nama_part");
-                String[] data = {kode_part, nama_part};
+                String kode_bahan = hasil.getString("kode_bahan");
+                String kategori = hasil.getString("kategori");
+                String[] data = {kode_bahan,kategori};
                 tabmode2.addRow(data);
             }
         } catch (Exception e) {
@@ -356,12 +356,12 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         labelNama = new javax.swing.JLabel();
         lbTanggal = new javax.swing.JLabel();
         labelKodeBarang = new javax.swing.JLabel();
-        labelNamaBarang = new javax.swing.JLabel();
-        labelKategori = new javax.swing.JLabel();
+        labelKodeBahan = new javax.swing.JLabel();
+        labelJumlah = new javax.swing.JLabel();
         labelKeterangan = new javax.swing.JLabel();
         txtIdBarangMasuk = new javax.swing.JTextField();
         btnPilihTanggal = new com.toedter.calendar.JDateChooser();
-        txtKodePart = new javax.swing.JTextField();
+        txtKodeBahan = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -382,14 +382,14 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         txtJumlahBarang = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtKeterangan = new javax.swing.JTextArea();
-        labelKodeBarang1 = new javax.swing.JLabel();
+        labelNamaBarang = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        txtSupplier = new javax.swing.JTextField();
+        txtNamaBarang = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         tabelBarang = new javax.swing.JTable();
         txtCariBarang = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        labelNamaBarang2 = new javax.swing.JLabel();
+        labelKategori = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tabelSupplier = new javax.swing.JTable();
@@ -398,6 +398,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         btnTambah = new javax.swing.JButton();
         btnCetak = new javax.swing.JButton();
         comboBoxKategori = new javax.swing.JComboBox<>();
+        txtIdDetailBarangMasuk = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -469,15 +470,15 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         labelKodeBarang.setText("Id Barang Masuk");
         labelKodeBarang.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        labelNamaBarang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelNamaBarang.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelNamaBarang.setText("Kode Bahan");
-        labelNamaBarang.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelKodeBahan.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelKodeBahan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelKodeBahan.setText("Kode Bahan");
+        labelKodeBahan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        labelKategori.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelKategori.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelKategori.setText("Jumlah");
-        labelKategori.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelJumlah.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelJumlah.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelJumlah.setText("Jumlah");
+        labelJumlah.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         labelKeterangan.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         labelKeterangan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -505,15 +506,15 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
             }
         });
 
-        txtKodePart.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtKodePart.addActionListener(new java.awt.event.ActionListener() {
+        txtKodeBahan.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtKodeBahan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtKodePartActionPerformed(evt);
+                txtKodeBahanActionPerformed(evt);
             }
         });
-        txtKodePart.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtKodeBahan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtKodePartKeyPressed(evt);
+                txtKodeBahanKeyPressed(evt);
             }
         });
 
@@ -706,6 +707,11 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         );
 
         txtJumlahBarang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtJumlahBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtJumlahBarangActionPerformed(evt);
+            }
+        });
         txtJumlahBarang.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtJumlahBarangKeyPressed(evt);
@@ -720,20 +726,20 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         txtKeterangan.setRows(5);
         jScrollPane2.setViewportView(txtKeterangan);
 
-        labelKodeBarang1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelKodeBarang1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelKodeBarang1.setText("Nama Barang");
-        labelKodeBarang1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelNamaBarang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelNamaBarang.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelNamaBarang.setText("Nama Barang");
+        labelNamaBarang.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText(":");
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        txtSupplier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtSupplier.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNamaBarang.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNamaBarang.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSupplierKeyPressed(evt);
+                txtNamaBarangKeyPressed(evt);
             }
         });
 
@@ -770,10 +776,10 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         jLabel2.setText("Part");
         jLabel2.setOpaque(true);
 
-        labelNamaBarang2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelNamaBarang2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelNamaBarang2.setText("Kategori");
-        labelNamaBarang2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelKategori.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelKategori.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelKategori.setText("Kategori");
+        labelKategori.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -860,6 +866,10 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
             }
         });
 
+        txtIdDetailBarangMasuk.setEditable(false);
+        txtIdDetailBarangMasuk.setBackground(new java.awt.Color(120, 122, 145));
+        txtIdDetailBarangMasuk.setBorder(null);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -871,34 +881,37 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(labelKodeBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelKodeBarang1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelNamaBarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(labelKodeBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(labelKodeBahan, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(labelJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lbTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(labelKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(labelNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(labelKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtIdDetailBarangMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboBoxKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(btnPilihTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtKodePart)
+                                        .addComponent(txtKodeBahan)
                                         .addComponent(txtJumlahBarang)
                                         .addComponent(txtIdBarangMasuk)
                                         .addComponent(jScrollPane2)
-                                        .addComponent(txtSupplier))))
+                                        .addComponent(txtNamaBarang))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -963,23 +976,26 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtKodePart, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtKodeBahan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
                                 .addComponent(comboBoxKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtJumlahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(labelJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(5, 5, 5)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(labelKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdDetailBarangMasuk)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -997,11 +1013,11 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                                     .addGap(5, 5, 5)
                                     .addComponent(labelKodeBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(5, 5, 5)
-                                    .addComponent(labelKodeBarang1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(5, 5, 5)
                                     .addComponent(labelNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(5, 5, 5)
-                                    .addComponent(labelNamaBarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(labelKodeBahan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(5, 5, 5)
+                                    .addComponent(labelKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(44, 44, 44)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1103,9 +1119,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         btnPilihTanggal.setDate(dateValue);
         txtIdDetailBarangMasuk.setText(c);
         txtIdBarangMasuk.setText(d);
-        txtSupplier.setText(e);
-        txtKodePart.setText(f);
-        txtNamaPart.setText(g);
+        txtNamaBarang.setText(e);
+        txtKodeBahan.setText(f);
+        comboBoxKategori.setSelectedItem(g);
         txtJumlahBarang.setText(h);
         txtKeterangan.setText(i);
         aktif();
@@ -1125,9 +1141,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         if (txtIdBarangMasuk.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "ID BM tidak boleh kosong");
             txtIdBarangMasuk.requestFocus();
-        } else if (txtSupplier.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Supplier tidak boleh kosong");
-            txtSupplier.requestFocus();
+        } else if (txtNamaBarang.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Nama Barang tidak boleh kosong");
+            txtNamaBarang.requestFocus();
         } else {
             String sql = "insert into tb_brg_masuk values (?,?,?,?)";
             String tampilan = "dd-MM-yyyy";
@@ -1137,7 +1153,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                 PreparedStatement stat = conn.prepareStatement(sql);
                 stat.setString(1, tanggal.toString());
                 stat.setString(2, txtIdBarangMasuk.getText());
-                stat.setString(3, txtSupplier.getText());
+                stat.setString(3, txtNamaBarang.getText());
                 stat.setString(4, txtKeterangan.getText());
                 stat.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
@@ -1148,7 +1164,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                 dataTable();
                 lebarKolom();
                 txtIdBarangMasuk.setEnabled(true);
-                txtSupplier.setEnabled(true);
+                txtNamaBarang.setEnabled(true);
                 txtIdBarangMasuk.requestFocus();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data Gagal Disimpan" + e);
@@ -1167,7 +1183,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     }//GEN-LAST:event_btnUbahMouseExited
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
-        String sql = "update tb_detail_brg_masuk set tanggal=?,id_detail_bm=?,id_bm=?,supplier=?,kode_part=?,nama_part=?,jumlah=?,keterangan=? where id_detail_bm='" + txtIdDetailBarangMasuk.getText() + "'";
+        String sql = "update tb_detail_brg_masuk set tanggal=?,id_detail_bm=?,id_bm=?,nama_barang=?,kode_bahan=?,kategori=?,jumlah=?,keterangan=? where id_detail_bm='" + txtIdDetailBarangMasuk.getText() + "'";
         String tampilan = "dd-MM-yyyy";
         SimpleDateFormat fm = new SimpleDateFormat(tampilan);
         String tanggal = String.valueOf(fm.format(btnPilihTanggal.getDate()));
@@ -1176,9 +1192,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
             stat.setString(1, tanggal.toString());
             stat.setString(2, txtIdDetailBarangMasuk.getText());
             stat.setString(3, txtIdBarangMasuk.getText());
-            stat.setString(4, txtSupplier.getText());
-            stat.setString(5, txtKodePart.getText());
-            stat.setString(6, txtNamaPart.getText());
+            stat.setString(4, txtNamaBarang.getText());
+            stat.setString(5, txtKodeBahan.getText());
+            stat.setString(6, comboBoxKategori.getSelectedItem().toString());
             stat.setString(7, txtJumlahBarang.getText());
             stat.setString(8, txtKeterangan.getText());
             stat.executeUpdate();
@@ -1244,9 +1260,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         autoIdBM_DT();
         tanggal();
         txtIdBarangMasuk.requestFocus();
-        txtSupplier.setText(null);
-        txtKodePart.setText(null);
-        txtNamaPart.setText(null);
+        txtNamaBarang.setText(null);
+        txtKodeBahan.setText(null);
+        comboBoxKategori.getSelectedItem();
         txtJumlahBarang.setText(null);
         txtKeterangan.setText(null);
     }//GEN-LAST:event_btnBersihActionPerformed
@@ -1263,15 +1279,15 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
 
     private void txtIdBarangMasukKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdBarangMasukKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtSupplier.requestFocus();
+            txtNamaBarang.requestFocus();
         }
     }//GEN-LAST:event_txtIdBarangMasukKeyPressed
 
-    private void txtKodePartKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodePartKeyPressed
+    private void txtKodeBahanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeBahanKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtNamaPart.requestFocus();
+            comboBoxKategori.requestFocus();
         }
-    }//GEN-LAST:event_txtKodePartKeyPressed
+    }//GEN-LAST:event_txtKodeBahanKeyPressed
 
     private void txtJumlahBarangKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahBarangKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1283,13 +1299,13 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         int bar = tabelBarang.getSelectedRow();
         String a = tabmode2.getValueAt(bar, 0).toString();
         String b = tabmode2.getValueAt(bar, 1).toString();
-        txtKodePart.setText(a);
-        txtNamaPart.setText(b);
+        txtKodeBahan.setText(a);
+        comboBoxKategori.getSelectedItem();
         txtJumlahBarang.requestFocus();
     }//GEN-LAST:event_tabelBarangMouseClicked
 
     private void txtCariBarangKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariBarangKeyTyped
-        String sqlPencarian2 = "select * from tb_barang where kode_part like '%" + txtCariBarang.getText() + "%' or nama_part like '%" + txtCariBarang.getText() + "%'";
+        String sqlPencarian2 = "select * from tb_barang where kode_bahan like '%" + txtCariBarang.getText() + "%' or kategori like '%" + txtCariBarang.getText() + "%'";
         pencarian2(sqlPencarian2);
         lebarKolom2();
     }//GEN-LAST:event_txtCariBarangKeyTyped
@@ -1297,9 +1313,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     private void txtCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyTyped
         String sqlPencarian = "select * from tb_detail_brg_masuk where id_bm like '%" + txtCari.getText() + "%'"
                 + "or id_detail_bm like '%" + txtCari.getText() + "%'"
-                + "or nama_part like '%" + txtCari.getText() + "%'"
-                + "or kode_part like '%" + txtCari.getText() + "%'"
-                + "or supplier like '%" + txtCari.getText() + "%'";
+                + "or kategori like '%" + txtCari.getText() + "%'"
+                + "or kode_bahan like '%" + txtCari.getText() + "%'"
+                + "or nama_barang like '%" + txtCari.getText() + "%'";
         pencarian(sqlPencarian);
         lebarKolom();
     }//GEN-LAST:event_txtCariKeyTyped
@@ -1308,8 +1324,8 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         int bar = tabelSupplier.getSelectedRow();
         String a = tabmode3.getValueAt(bar, 0).toString();
         String b = tabmode3.getValueAt(bar, 1).toString();
-        txtSupplier.setText(b);
-        txtKodePart.requestFocus();
+        txtNamaBarang.setText(b);
+        txtKodeBahan.requestFocus();
     }//GEN-LAST:event_tabelSupplierMouseClicked
 
     private void txtCariSupplierKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariSupplierKeyTyped
@@ -1318,11 +1334,11 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         lebarKolom3();
     }//GEN-LAST:event_txtCariSupplierKeyTyped
 
-    private void txtSupplierKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSupplierKeyPressed
+    private void txtNamaBarangKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtKodePart.requestFocus();
+            txtKodeBahan.requestFocus();
         }
-    }//GEN-LAST:event_txtSupplierKeyPressed
+    }//GEN-LAST:event_txtNamaBarangKeyPressed
 
     private void btnTambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseEntered
         btnTambah.setBackground(new Color(0, 0, 204));
@@ -1338,17 +1354,17 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         if (txtIdBarangMasuk.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "ID BM tidak boleh kosong");
             txtIdBarangMasuk.requestFocus();
-        } else if (txtSupplier.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Supplier tidak boleh kosong");
-            txtSupplier.requestFocus();
-        } else if (txtKodePart.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Kode Part tidak boleh kosong");
-            txtKodePart.requestFocus();
-        } else if (txtNamaPart.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Nama Part tidak boleh kosong");
-            txtNamaPart.requestFocus();
+        } else if (txtNamaBarang.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Nama Barang tidak boleh kosong");
+            txtNamaBarang.requestFocus();
+        } else if (txtKodeBahan.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Kode Bahan tidak boleh kosong");
+            txtKodeBahan.requestFocus();
+        } else if (comboBoxKategori.getSelectedItem().equals("")){
+            JOptionPane.showMessageDialog(null, "Kategori tidak boleh kosong");
+            comboBoxKategori.requestFocus();
         } else if (txtJumlahBarang.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Qty tidak boleh kosong");
+            JOptionPane.showMessageDialog(null, "Jumlah tidak boleh kosong");
             txtJumlahBarang.requestFocus();
         } else {
             String sql = "insert into tb_detail_brg_masuk values (?,?,?,?,?,?,?,?)";
@@ -1360,9 +1376,9 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                 stat.setString(1, tanggal.toString());
                 stat.setString(2, txtIdDetailBarangMasuk.getText());
                 stat.setString(3, txtIdBarangMasuk.getText());
-                stat.setString(4, txtSupplier.getText());
-                stat.setString(5, txtKodePart.getText());
-                stat.setString(6, txtNamaPart.getText());
+                stat.setString(4, txtNamaBarang.getText());
+                stat.setString(5, txtKodeBahan.getText());
+                stat.setString(6, comboBoxKategori.getSelectedItem().toString());
                 stat.setString(7, txtJumlahBarang.getText());
                 stat.setString(8, txtKeterangan.getText());
                 stat.executeUpdate();
@@ -1374,8 +1390,8 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
                 dataTable();
                 lebarKolom();
                 txtIdBarangMasuk.setEnabled(false);
-                txtSupplier.setEnabled(false);
-                txtKodePart.requestFocus();
+                txtNamaBarang.setEnabled(false);
+                txtKodeBahan.requestFocus();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data Gagal Disimpan" + e);
             }
@@ -1394,7 +1410,7 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
 
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
         try {
-            Connection konn = new koneksi().connect();
+            Connection konn = ConnectionProvider.getConnection();
             File file = new File("src/laporan/transaksiBM.jrxml");
             JasDes = JRXmlLoader.load(file);
             param.put("id_bm",txtIdBarangMasuk.getText());
@@ -1420,13 +1436,17 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtJumlahBarangKeyTyped
 
-    private void txtKodePartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKodePartActionPerformed
+    private void txtKodeBahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKodeBahanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtKodePartActionPerformed
+    }//GEN-LAST:event_txtKodeBahanActionPerformed
 
     private void comboBoxKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxKategoriActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxKategoriActionPerformed
+
+    private void txtJumlahBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJumlahBarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtJumlahBarangActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1506,13 +1526,13 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel labelJumlah;
     private javax.swing.JLabel labelKategori;
     private javax.swing.JLabel labelKeterangan;
+    private javax.swing.JLabel labelKodeBahan;
     private javax.swing.JLabel labelKodeBarang;
-    private javax.swing.JLabel labelKodeBarang1;
     private javax.swing.JLabel labelNama;
     private javax.swing.JLabel labelNamaBarang;
-    private javax.swing.JLabel labelNamaBarang2;
     private javax.swing.JLabel lbTanggal;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JTable tabelBarang;
@@ -1522,9 +1542,10 @@ public class transaksiBarangMasuk extends javax.swing.JDialog {
     private javax.swing.JTextField txtCariBarang;
     private javax.swing.JTextField txtCariSupplier;
     private javax.swing.JTextField txtIdBarangMasuk;
+    private javax.swing.JTextField txtIdDetailBarangMasuk;
     private javax.swing.JTextField txtJumlahBarang;
     private javax.swing.JTextArea txtKeterangan;
-    private javax.swing.JTextField txtKodePart;
-    private javax.swing.JTextField txtSupplier;
+    private javax.swing.JTextField txtKodeBahan;
+    private javax.swing.JTextField txtNamaBarang;
     // End of variables declaration//GEN-END:variables
 }
